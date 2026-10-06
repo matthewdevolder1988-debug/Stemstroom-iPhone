@@ -9,7 +9,8 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
   exit 1
 fi
 
-if ! xcodebuild -version | head -n 1 | grep -Eq '^Xcode 26([.]|$)'; then
+xcode_version="$(xcodebuild -version)"
+if [[ ! "$xcode_version" =~ ^Xcode\ 26([.]|$) ]]; then
   printf '%s\n' 'Selecteer Xcode 26 via DEVELOPER_DIR of xcode-select.' >&2
   exit 1
 fi
