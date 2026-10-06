@@ -143,7 +143,8 @@ struct TranscriptDocumentTests {
         #expect(document.status == .recording)
         #expect(document.endedAt == nil)
         #expect(document.segments.count == 2_340)
-        #expect(document.segments.allSatisfy(\.isFinal))
+        let allFinal = document.segments.allSatisfy { $0.isFinal }
+        #expect(allFinal)
         #expect(Set(document.segments.map(\.id)).count == 2_340)
         #expect(document.plainText.components(separatedBy: "\n\n").count == 2_340)
         #expect(document.plainText.hasPrefix("Passage 1.\n\nPassage 2."))
