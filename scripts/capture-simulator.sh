@@ -18,7 +18,7 @@ const root = process.argv[2];
 const output = path.join(root, 'build/screenshots');
 const app = path.join(root, 'build/DerivedData/Build/Products/Release-iphonesimulator/Stemstroom.app');
 const bundle = 'be.personal.Stemstroom';
-const deadline = Date.now() + 300_000;
+const deadline = Date.now() + 480_000;
 const diagnosticDeadline = deadline + 60_000;
 const report = ['Native simulatorcontrole; geen microfoon-, herkennings- of duurtest.', `Gestart: ${new Date().toISOString()}`];
 mkdirSync(output, { recursive: true });
@@ -28,7 +28,7 @@ saveReport();
 
 function run(command, args, limit = 30_000, diagnostic = false) {
   const remaining = (diagnostic ? diagnosticDeadline : deadline) - Date.now();
-  if (remaining <= 0) throw new Error('De simulatorcontrole overschreed vijf minuten.');
+  if (remaining <= 0) throw new Error('De simulatorcontrole overschreed acht minuten.');
   console.log(`> ${command} ${args.join(' ')}`);
   const result = spawnSync(command, args, {
     cwd: root, encoding: 'utf8', timeout: Math.min(limit, remaining), maxBuffer: 10 * 1024 * 1024,
@@ -81,7 +81,7 @@ try {
     run('xcrun', ['simctl', 'boot', device.udid], 45_000);
     bootedHere = true;
   }
-  run('xcrun', ['simctl', 'bootstatus', device.udid, '-b'], 120_000);
+  run('xcrun', ['simctl', 'bootstatus', device.udid, '-b'], 240_000);
   run('xcrun', ['simctl', 'install', device.udid, app], 45_000);
   const launch = run('xcrun', ['simctl', 'launch', '--terminate-running-process', device.udid, bundle, '-AppleLanguages', '(nl)', '-AppleLocale', 'nl_BE'], 90_000);
   report.push(`Startresultaat: ${launch.trim()}`);
