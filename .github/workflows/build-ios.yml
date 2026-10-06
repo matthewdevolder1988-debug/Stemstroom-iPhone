@@ -1,0 +1,44 @@
+name: Bouw Stemstroom voor iPhone
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - name: Broncode ophalen
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Kern testen, simulator bouwen en ongetekende IPA maken
+        run: bash scripts/build-ios.sh
+
+      - name: Installatiebestand bewaren
+        uses: actions/upload-artifact@v7
+        with:
+          name: Stemstroom-iPhone-unsigned
+          path: |
+            build/Stemstroom-unsigned.ipa
+            build/Stemstroom-unsigned.sha256
+            build/build-info.txt
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Bouw- en testuitvoer bewaren
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: Stemstroom-bouwlog
+          path: |
+            build/logs/
+            build/build-info.txt
+          if-no-files-found: warn
+          retention-days: 3
