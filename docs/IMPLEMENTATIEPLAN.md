@@ -7,11 +7,11 @@ Specificatie: [ONTWERP.md](ONTWERP.md).
 
 ## Taken
 
-- [x] Documentkern en 21 Swift-tests geschreven: finale passages, vervangbare voorlopige tekst, markeringen, 3+ uur gesimuleerde tekst, atomaire opslag en herstel. Uitvoering wacht op Swift/macOS.
+- [x] Documentkern en 21 Swift-tests: finale passages, vervangbare voorlopige tekst, markeringen, 3+ uur gesimuleerde tekst, atomaire opslag en herstel. Alle 21 tests slagen op macOS.
 - [x] Audio/spraak geïmplementeerd: lokale taalmodellen voorbereiden, begrensde microfoonstream, conversie buiten de hoofdthread, finaliseren bij Stop.
 - [x] Sessiecontroller geïmplementeerd: permissies, toestand, autosave, achtergrondaudio, onderbrekingen en hervatten. Niet-opgeslagen tekst blokkeert documentvervanging.
 - [x] SwiftUI-scherm geïmplementeerd: Nederlandse taalvarianten, timer, tekst, duidelijke acties, eerdere sessies en foutmeldingen.
 - [x] Xcode-project, buildscript en installatiehandleiding; onafhankelijke bronreview uitgevoerd en bevestigde bevindingen verwerkt.
-- [x] Beschikbare structurele controles gedraaid; resultaten en resterende Mac/iPhone-controles staan in VERIFICATIE.md. Dit is nog geen geteste iPhone-build.
+- [x] Structurele controles, kerntests en beide Xcode-builds geslaagd. Resultaten en resterende iPhone-controles staan in VERIFICATIE.md. De duurtest op een echte iPhone blijft open.
 
 Werk alleen binnen deze projectmap. De bestaande Brindero-app en gedeelde Git-index blijven buiten deze taak.
