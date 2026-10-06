@@ -79,8 +79,9 @@ final class AppleTranscription {
                     }
                 } catch {
                     let message = error.localizedDescription
+                    let owner = self
                     await MainActor.run {
-                        if self?.isFinishing == false { onFailure(message) }
+                        if owner?.isFinishing == false { onFailure(message) }
                     }
                     writer.finish()
                     return message
