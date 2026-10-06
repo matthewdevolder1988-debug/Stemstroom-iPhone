@@ -32,6 +32,35 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+      - name: Echt startscherm vastleggen in iPhone-simulator
+        id: simulator
+        continue-on-error: true
+        timeout-minutes: 7
+        run: bash scripts/capture-simulator.sh
+
+      - name: Simulatorschermafbeelding en rapport bewaren
+        id: screenshot_artifact
+        if: always() && steps.simulator.outcome != 'skipped'
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: Stemstroom-simulator
+          path: build/screenshots/
+          if-no-files-found: warn
+          retention-days: 3
+
+      - name: Simulatorresultaat vermelden
+        if: always()
+        env:
+          CAPTURE_RESULT: ${{ steps.simulator.outcome }}
+          UPLOAD_RESULT: ${{ steps.screenshot_artifact.outcome }}
+        run: |
+          printf 'Simulatoropname: %s. Screenshotartifact: %s.\n' "$CAPTURE_RESULT" "$UPLOAD_RESULT" >> "$GITHUB_STEP_SUMMARY"
+          printf '%s\n' 'Dit is alleen het startscherm; microfoon, transcriptie en achtergrondduur zijn niet getest.' >> "$GITHUB_STEP_SUMMARY"
+          if [ "$CAPTURE_RESULT" != 'success' ]; then
+            printf '%s\n' '::warning::Geen geslaagde simulatoropname. Zie simulatorrapport; de IPA is afzonderlijk bewaard als de build slaagde.'
+          fi
+
       - name: Bouw- en testuitvoer bewaren
         if: always()
         uses: actions/upload-artifact@v7
